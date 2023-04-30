@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            margin: 0;
+        }
+        p{
+            width: 100%;
+        }
+        .head{
+            height: 50px;
+            background: rgb(100, 100, 100);
+            display: flex;
+            justify-content: left;
+            flex-direction: row;
+            padding-left: 0;
+            color: rgb(200, 200, 200);
+            font-size: 30px;
+        }
+        .scripture{
+            color: black;
+        }
+        .head ul{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .list{
+            list-style: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            height: 100%;
+            background: rgb(100, 100, 100);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .list:hover{
+            background: rgb(150, 150, 150);
+            color: black;
+        }
+        .list a{
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .searchbar{
+            outline: none;
+            width: 200px;
+        }
+        .searchbutton{
+            background: white;
+            border-style: none;
+        }
+        .searchbutton:hover{
+            background: rgb(153, 153, 153);
+        }
+        .search-option{
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="head">
+        <ul>
+            <li class="list"><a href="{% url 'list-bands' %}">Browse</a></li>
+            {% if user.is_superuser %}
+            <li class="list"><a href="{% url 'personal_lists' %}">My Bandlist</a></li>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <li class="list"><a href="{% url 'add_band' %}">Add Band</a></li>
+            {% endif %}
+            <li class="list"><a href="{% url 'about' %}">About</a></li>
+            {% if user.is_authenticated %}
+                <li class="list"><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li class="list"><a href="{% url 'login' %}">Login</a></li>
+                <li class="list"><a href="{% url 'register_user' %}">Apply for Registration</a></li>
+            {% endif %}
+            {% if user.is_superuser %}
+                <li class="list"><a href="{% url 'userlist' %}">User List</a></li>
+            {% endif %}
+                <li style="cursor: default;" class="search-option">
+                    <form method="POST" action="{% url 'search' %}">
+                        {% csrf_token %}
+                        <input type="text" placeholder="search.." class="searchbar" name="searchterm">
+                        <input type="submit" value="S" style="cursor: pointer;" class="searchbutton">
+                    </form>
+                </li>
+        </ul>
+    </div>
+
+    <div class="container">
+    {% block content %}
+    {% endblock %}
+    </div>
+
+
+</body>
+</html>

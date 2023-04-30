@@ -1,0 +1,49 @@
+{% extends 'bands/base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Add a Band</title>
+        <style>
+            .submit-btn{
+                background: rgb(120, 120, 120);
+                color: white;
+                border-style: solid;
+                border-color: rgb(80, 80, 80);
+                border-radius: 4px;
+                width: 70px;
+                height: 30px;
+                cursor: pointer;
+            }
+            .submit-btn:hover{
+                background: rgb(210, 210, 210);
+                color: black;
+            }
+            .submit-btn:active{
+                background: rgb(50, 50, 50);
+            }
+        </style>
+    </head>
+    <body>
+        <center>
+            <h1>Add Album to Base</h1>
+            <br/><br/>
+            {% if submitted %}
+                The Album was added successfully
+            {% else %}
+            {% endif %}
+            <form sction="" method=POST enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <input type="submit" value="Submit" class="submit-btn">
+            </form>
+            <a href="{% url 'show_band' band.id %}">Back to Band Page</a>
+        </center>
+    </body>
+    </html>
+
+{% endblock %}

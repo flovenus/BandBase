@@ -1,0 +1,104 @@
+{% extends 'bands/base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>List of registered users</title>
+        <style>
+            .table{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                width: 50%;
+            }
+            .light-back{
+                background: rgb(200, 200, 200);
+                height: 18px;
+            }
+            .dark-back{
+                height: 18px;
+                background: rgb(130, 130, 130);
+            }
+            .delete-btn{
+                height: 16px;
+                padding-left: 0px;
+                padding-right: 0;
+                padding-top: 0;
+                padding-bottom: 2px;
+            }
+            .delete-btn a{
+                text-decoration: none;
+                color: black;
+                font-size: 11px;
+            }
+        </style>
+    </head>
+    <body>
+        <center>
+            <h1>Registered Users</h1>
+            <br/><br/>
+            <div class="table">
+                <div class="left">
+                    {% for user in users %}
+                    {% if user.id|divisibleby:2 %}
+                    <div class="light-back">{{ user.username }}</div>
+                    {% else %}
+                    <div class="dark-back">{{ user.username }}</div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="right">
+                    {% for user in users %}
+                    {% if user.id|divisibleby:2 %}
+                    <div class="light-back">{{ user.is_superuser }}</div>
+                    {% else %}
+                    <div class="dark-back">{{ user.is_superuser }}</div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="between">
+                    {% for user in users %}
+                    {% if user.id|divisibleby:2 %}
+                    <div class="light-back">{{ user.email }}</div>
+                    {% else %}
+                    <div class="dark-back">{{ user.email }}</div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="most-right">
+                {% for user in users %}
+                {% if not user.is_superuser %}
+                    {% if user.id|divisibleby:2 %}
+                        <div class="light-back"><button class="delete-btn"><a href="{% url 'delete_user' user.id %}">delete</a></button></div>
+                    {% else %}
+                        <div class="dark-back"><button class="delete-btn"><a href="{% url 'delete_user' user.id %}">delete</a></button></div>
+                    {% endif %}
+                {% else %}
+                    {% if user.id|divisibleby:2 %}
+                        <div class="light-back"></div>
+                    {% else %}
+                        <div class="dark-back"></div>
+                    {% endif %}
+                {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+            
+            <h1>Unverified Users</h1>
+            <br/><br/>
+            <div class="table">
+                {% for u_user in unchecked_users %}
+                <div class="left">
+                    <div class="light-back">{{ u_user.username }}</div>
+                </div>
+                <div class="right">
+                    <div class="light-back"><a href="{% url 'verify_user' u_user.id %}">Verify</a></div>
+                </div>
+                {% endfor %}
+            </div>
+        </center>
+    </body>
+    </html>
+
+{% endblock %}

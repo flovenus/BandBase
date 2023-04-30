@@ -1,0 +1,108 @@
+{% extends 'bands/base.html' %}
+
+{% block content %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ album.name }}</title>
+        <style>
+            .songlist{
+                min-width: 500px;
+                width: 50%;
+                background: rgb(120, 120, 120);
+                margin: 0;
+            }
+            .cover-image{
+                min-width: 500px;
+                width: 50%;
+                height: 200px;
+                background: black;
+                margin-top: 16px;
+                color: white;
+                display: flex;
+                justify-content: left;
+                font-size: 38px;
+            }
+            .li{
+                display: flex;
+                justify-content: left;
+                align-items: center;
+                list-style-type: decimal;
+                background: rgb(120, 120, 120);
+                height: 30px;
+                padding-top: 6px;
+            }
+            .li:hover{
+                background: rgb(100, 100, 100);
+            }
+            .add-song-btn{
+                background: rgb(200, 200, 200);
+                height: 30px;
+                margin-top: 8px;
+                cursor: pointer;
+                border-style: solid;
+                border-color: rgb(61, 61, 61);
+                border-radius: 6px;
+            }
+            .add-song-btn:hover{
+                background: rgb(146, 145, 145);
+            }
+            .add-song-btn a{
+                text-decoration: none;
+                color: black;
+            }
+
+            .song-item{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-right: 20px;
+            }
+            .song-delete-btn{
+                background: transparent;
+                border-style: none;
+            }
+            .song-delete-btn a{
+                text-decoration: none;
+                color: white;
+            }
+            span{
+                font-size: 25px;
+            }
+        </style>
+    </head>
+    <body>
+        <center>
+            <div class="cover-image"><img src="{{ album.cover_image.url }}">{{ album.name }}</div>
+            <div class="songlist">
+                <ul>
+                    <li class="li">{% if user.is_superuser %}
+                        <form method="POST">
+                            <input class="add-song-btn" type="submit" value="Add Song">
+                            {% csrf_token %} 
+                            {% for field in form %} 
+                            {{ field }} 
+                            {% endfor %}
+                        </form>{% else %} 
+                        <span>Songs</span> 
+                        {% endif %}
+                    </li>
+                    {% for song in songs %}
+                    <li class="song-item li"><div>{{ song.name }}</div>
+                        {% if user.is_superuser %}
+                        <button class="song-delete-btn"><a href="{% url 'delete_song' song.id %}">X</a></button>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                    <li class="li"></li>
+                    <li class="li"></li>
+                </ul>
+            </div>
+        </center>
+    </body>
+    </html>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'bands/base.html' %}
+
+{% block content %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>About this Site</title>
+        <style>
+            .green{
+                color: green;
+            }
+            .red{
+                color: red;
+            }
+            .descr{
+                width: 30%;
+                height: 200px;
+                border-style: solid;
+                border-width: 3px;
+                border-radius: 6px;
+                border-color: rgb(100, 100, 100);
+                margin-top: 200px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <center>
+            <div class="descr">
+                <h1>About this Website</h1>
+                <div class="text">
+                    This website is a database for bands.
+                    After applying for registration, the admin will check your
+                    application and either <span class="red">reject</span> it, or <span class="green">verify</span>.
+                    Once your account is verified, you can add a band to the database.
+                    This will be treated as a suggestion and will be edited
+                    over time.
+                    Note that this site is in version 1. More features might be added soon.
+                </div>
+            </div>
+        </center>
+    </body>
+    </html>
+
+{% endblock %}

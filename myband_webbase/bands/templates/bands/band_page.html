@@ -1,0 +1,283 @@
+{% extends 'bands/base.html' %}
+
+{% block content %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ band.name }}</title>
+        <style>
+            center{
+                display: grid;
+                grid-template-columns: 3fr 4fr;
+                grid-auto-columns: auto;
+                padding-left: 30px;
+                padding-right: 30px;
+                padding-top: 40px;
+            }
+            .li{
+                list-style-type: none;
+                display: flex;
+                justify-content: left;
+                padding-left: 10px;
+                padding-top: 8px;
+            }
+            .general-info{
+                background: white;
+                display: flex;
+                justify-content: end;
+                
+            }
+            .infobox{
+                background: white;
+                width: 70%;
+                display: flex;
+                justify-content: end;
+                flex-direction: column;
+            }
+            .band-picture{
+                width: 500px;
+                height: 500px;
+                background: black;
+                overflow: hidden;
+            }
+            .band-picture img{
+                height: 100%;
+            }
+            .bandname{
+                height: 40px;
+                width: 490px;
+                background: rgb(100, 100, 100);
+                font-size: 28px;
+                border-bottom-style: solid;
+                border-bottom-width: 2px;
+                border-bottom-color: rgb(140, 140, 140);
+            }
+            .genres{
+                height: 30px;
+                width: 490px;
+                background: rgb(100, 100, 100);
+            }
+            .activeness{
+                height: 30px;
+                width: 490px;
+                background: rgb(100, 100, 100);
+                border-bottom-style: solid;
+                border-bottom-width: 2px;
+                border-bottom-color: rgb(140, 140, 140);
+            }
+            .member-title{
+                padding-left: 0;
+            }
+            .members{
+                width: 470px;
+                height: 20px;
+                padding-left: 30px;
+                background: rgb(100, 100, 100);
+                list-style-type: none;
+            }
+            .member-name{
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                flex-direction: row;
+            }
+            .member-delete-btn button{
+                height: 20px;
+                width: 16px;
+                background: transparent;
+                border-style: none;
+            }
+            .member-delete-btn button a{
+                text-decoration: none;
+                color: black;
+                font-size: 14px;
+            }
+            .placeholder{
+                text-decoration: none;
+                color: black;
+                font-size: 14px;
+            }
+            .instruments{
+                display: flex;
+                justify-content: center;
+            }
+            .discography{
+                background: white;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+            .album-box{
+                height: 100px;
+                width: 460px;
+                background: rgb(210, 210, 210);
+                border-style: solid;
+                border-color: rgb(180, 180, 180);
+                margin-top: 20px;
+                margin-left: 25px;
+                display: grid;
+                grid-template-columns: 100px 1fr;
+            }
+            .album-cover{
+                height: 100px;
+                width: 100px;
+                overflow: hidden;
+            }
+            .album-cover img{
+                height: 100px;
+            }
+            .basic-album-info{
+                display: grid;
+                grid-template-rows: 1fr 1fr;
+                width: 100%;
+            }
+            .album-name{
+                padding-left: 10px;
+                display: flex;
+                justify-content:space-between;
+                align-items: center;
+                font-size: 25px;
+                border-bottom-style: solid;
+                border-bottom-color: rgb(210, 210, 210);
+                border-bottom-width: 1px;
+            }
+            .album-name a{
+                text-decoration: none;
+                color: black;
+            }
+            .year{
+                padding-left: 10px;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .add-band-member{
+                cursor: pointer;
+            }
+
+            .add-album-btn-box{
+                padding-top: 20px;
+                height: 100px;
+                width: 100px;
+                padding-left: 25px;
+            }
+            .add-album-btn-box button{
+                height: 100px;
+                width: 100px;
+                background: rgb(210, 210, 210);
+                border-style: solid;
+                border-color: rgb(180, 180, 180);
+                cursor: pointer;
+            }
+            .add-album-btn-box button:hover{
+                background: rgb(80, 80, 80);
+            }
+            .add-album-btn-box button a{
+                text-decoration: none;
+                color: black;
+            }
+
+            .edit-and-favorite{
+                display: flex;
+                justify-content: end;
+            }
+            .placeholder2{
+                display: flex;
+                justify-content: end;
+            }
+            .delete-album{
+                display: flex;
+                justify-content: end;
+            }
+
+            .edit-btn{
+                width: 50px;
+                height: 30px;
+                background: rgb(240, 240, 240);
+                border-style: solid;
+                border-color: black;
+                border-width: 1px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: 700;
+            }
+            .edit-btn:hover{
+                background: rgb(180, 180, 180);
+            }
+            .edit-btn:active{
+                background: rgb(100, 100, 100);
+            }
+        </style>
+    </head>
+    <body>
+        <center>
+            <div class="general-info">
+                <div class="infobox">
+                    <div class="band-picture">
+                        {% if band.band_image %}
+                        <img src="{{ band.band_image.url }}">
+                        {% endif %}
+                    </div>
+                    <li class="bandname li">{{ band.name }}</li>
+                    <li class="genres li">Genre(s): {{ band.genres }}</li>
+                    {% if band.still_active == True %}
+                    <li class="activeness li">Active: {{ band.active_from }} - now</li>
+                    {% else %}
+                    <li class="activeness li">Active: {{ band.active_from }} - {{ band.active_to }}</li>
+                    {% endif %}
+                    <li class="member-title li">Members: 
+                        {% if user.is_superuser %}
+                        <form method="POST">{% csrf_token %}
+                            <input type="submit" value="+">
+                            {% for field in form %}{{ field }}{% endfor %}
+                        </form>
+                        {% endif %}
+
+                        {% for member in bandmembers %}
+                        <li class="members">
+                            <div class="member-name">
+                                <div class="name">{{ member.name }}</div>
+                                <div class="instruments">{{ member.instruments }}</div>
+                                {% if user.is_superuser %}
+                                <div class="member-delete-btn"><button><a href="{% url 'delete_member' member.id %}">x</a></button></div>
+                                {% else %}
+                                <div class="placeholder"></div>
+                                {% endif %}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </li>
+                </div>
+            </div>
+            <div class="discography">
+
+                {% for album in albums %}
+                <div class="album-box">
+                    <div class="album-cover">
+                        <img src="/{{ album.cover_image }}">
+                    </div>
+                    <div class="basic-album-info">
+                        <div class="album-name"><a href="album_page/{{ album.id }}">{{ album.name }}</a>
+                            {% if user.is_superuser %}
+                            <div class="edit-and-favorite">
+                                <button class="edit-btn"><a href="{% url 'delete_album' album.id %}">delete</a></button>
+                            </div>
+                            {% else %}
+                            <div class="placeholder2"></div>
+                            {% endif %}
+                        </div>
+                        <div class="year">{{ album.year }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% if user.is_superuser %}
+                <div class="add-album-btn-box"><button><a href="{% url 'add_album' band.id %}">Add Album</a></button></div>
+                {% endif %}
+            </div>
+        </center>
+    </body>
+    </html>
+
+{% endblock %}

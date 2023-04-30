@@ -1,0 +1,58 @@
+{% extends 'bands/base.html' %}
+
+{% block content %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <style>
+            .login-form{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                margin-top: 250px;
+
+            }
+            .username{
+                margin: 12px;
+                width: 200px;
+                height: 20px;
+            }
+            .password{
+                margin: 12px;
+                width: 200px;
+                height: 20px;
+            }
+            .login-btn{
+                cursor: pointer;
+                margin: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <center>
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        </center>
+        <center>
+            <form action="" method="POST" class="login-form">
+                {% csrf_token %}
+                <h2>Login</h2>
+                <input type="text" name="username" placeholder="Username" class="username">
+
+                <input type="password" name="password" placeholder="Password" class="password">
+
+                <input type="submit" value="Log in" class="login-btn">
+            </form>
+        </center>
+    </body>
+    </html>
+
+{% endblock %}

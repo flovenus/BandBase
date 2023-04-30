@@ -1,0 +1,102 @@
+{% extends 'bands/base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Search</title>
+        <style>
+            
+            .band-search-result{
+                width: 200px;
+                height: 200px;
+                background: black;
+                color: white;
+                margin-left: 20px;
+                margin-right: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: baseline;
+                overflow: hidden;
+            }
+            .band-search-result img{
+                height: 200px;
+            }
+            .searched-bands{
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+            .line{
+                width: 80%;
+                height: 2px;
+                background: rgb(87, 87, 87);
+                margin-bottom: 20px;
+            }
+            .album-search-result{
+                width: 120px;
+                height: 120px;
+                background: black;
+                color: white;
+                margin-left: 10px;
+                margin-right: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: baseline;
+                overflow: hidden;
+            }
+            .album-search-result img{
+                height: 120px;
+            }
+            .band-search-result a{
+                height: 100%;
+                width: 100%;
+                text-decoration: none;
+                color: white;
+            }
+            .searched-albums{
+                display: flex;
+                justify-content: center;
+            }
+            .album-search-result a{
+                height: 100%;
+                width: 100%;
+                text-decoration: none;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <center>
+            <h1>Search ...</h1>
+            <br/>
+            {% if searchterm %}
+            <h2>You searched for '{{ searchterm }}'</h2>
+            <h2>Bands</h2>
+            <div class="result-table">
+                <div class="searched-bands">
+                    {% for band in bandresults %}
+                    <div>
+                        {{ band.name }}
+                        <div class="band-search-result"><a href="{% url 'show_band' band.id %}"><img src="{{ band.band_image.url }}"></a></div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="line"></div>
+                <h2>Albums</h2>
+                <div class="searched-albums">
+                    {% for album in albumresults %}
+                    <div class="album-search-result"><a href="{% url 'show_album' album.id %}"><img src="{{ album.cover_image.url }}"></a></div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% else %}
+            <h2>You forgot a keyword</h2>
+            {% endif %}
+        </center>
+    </body>
+    </html>
+
+{% endblock %}

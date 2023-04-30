@@ -1,0 +1,32 @@
+{% extends 'bands/base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Register</title>
+        <style>
+            .register-form{
+                margin-left: 200px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="register-form">
+            {% if form.errors %}
+            <h3>There was an error with your register form</h3>
+            {% endif %}
+            <h1>Register</h1>
+            <form action="" method=POST>
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <input type="submit" value="Apply" class="submit-btn">
+            </form>
+        </div>
+    </body>
+    </html>
+
+{% endblock %}
